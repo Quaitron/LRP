@@ -14,10 +14,10 @@ Version: 0.93
 	<style>
 		/* CSS-Styling für die Seite */
 		body {
-			background-color: #FAF0E6; 
+			background-color: rgb(250, 240, 230); 
 		}
         canvas {
-			background-color: #eee;
+			background-color: rgb(238, 238, 238);
             /* position: absolut; */
             /* left: 5%; */
             transform: translateX(5%);
@@ -33,7 +33,7 @@ Version: 0.93
 			font-size: 14px;
 		}
 		input {
-			background-color: #dcdcdc;
+			background-color: rgb(220, 220, 220);
 			border: none;
 			color: black;
 			padding: 12px 16px;
@@ -44,7 +44,7 @@ Version: 0.93
 		}
 		
 		button {
-			background-color: #ececec;
+			background-color: rgb(236, 236, 236);
 			border: none;
 			color: black;
 			padding: 12px 16px;
@@ -85,6 +85,7 @@ Version: 0.93
 	<div class="containerGUI">
 		<div>	
 			<select name="EBV" id="ebvDropdown" onchange="auslesenEBV()">
+        <option value="0">leer</option>
 				<option value="1">EBV1</option>
 				<option value="2">EBV2</option>
 				<option value="3">EBV3</option>
@@ -154,7 +155,7 @@ Version: 0.93
 		
 		// Korrektur für den 0 Punkt
 		const corrWidth = 0;
-		const corrHeight = canvasHeight;
+		const corrHeight = -10 + canvasHeight;
 		
 		// Faktor zur Massstabumrechung
 		const faktor = 8;
@@ -178,6 +179,7 @@ Version: 0.93
 		{ name: "QI", y: 	90, x:		1308 },
 		{ name: "RI", y: 	60, x:		1233 },
 		{ name: "SI", y: 	40, x:		993 },
+    { name: "SOK", y: 	0, x:		0 },
 		];
 		
 		const koordinatenArrayEBV2 = [
@@ -197,6 +199,7 @@ Version: 0.93
 		{ name: "QI", y: 	90, x:		1308 },
 		{ name: "RI", y: 	60, x:		1233 },
 		{ name: "SI", y: 	40, x:		993 },
+    { name: "SOK", y: 	0, x:		0 },
 		];
 		
 		const koordinatenArrayEBV3 = [
@@ -216,6 +219,7 @@ Version: 0.93
 		{ name: "QI", y: 	90, x:		1308 },
 		{ name: "RI", y: 	60, x:		1233 },
 		{ name: "SI", y: 	40, x:		993 },
+    { name: "SOK", y: 	0, x:		0 },
 		];
 		
 		const koordinatenArrayEBV4 = [
@@ -235,6 +239,7 @@ Version: 0.93
 		{ name: "QI", y: 	90, x:		1308 },
 		{ name: "RI", y: 	60, x:		1233 },
 		{ name: "SI", y: 	40, x:		993 },
+    { name: "SOK", y: 	0, x:		0 },
 		];
 		
 				
@@ -268,6 +273,19 @@ function changeKoordinate_dy() {
     return y;
   }
 }
+/* 
+//Funktion zum Einrechnen der Überhöhung
+function ueberhoehung_x (ue, x, y) {
+  x1 = x*(Math.cos(ue))-y*(Math.sin(ue));
+  
+  return x1;
+}
+
+function ueberhoehung_y (ue, x, y) {
+  y1 = x*(Math.sin(ue))-y*(Math.cos(ue));
+  
+  return y1;
+} */
 	
 
 // Funktion zur Abrufung des aktuellen Datums und der aktuellen Uhrzeit
@@ -620,7 +638,6 @@ function auslesenEBVarray(selectEBV) {
   switch (selectEBV) {
     case 0:
       // Wenn kein EBV Profil ausgewählt wurde, eine Meldung anzeigen
-      alert("Kein EBV Profil ausgewählt.");
       break;
 
     case 1:
@@ -653,7 +670,7 @@ function auslesenEBVfarbe(selectEBV) {
     case 0:
       // Wenn kein EBV Profil ausgewählt wurde, eine Meldung anzeigen
       alert("Kein EBV Profil ausgewählt.");
-      break;
+      clearCanvas();
 
     case 1:
       // Wenn der Wert 1 ist, die Farbe "blue" zurückgeben
