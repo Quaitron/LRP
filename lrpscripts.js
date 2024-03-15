@@ -137,13 +137,17 @@ function ueberhoehung_x (ue, x, y) {
         return x;
     }
     else {
-    x1=x*Math.cos(ue)-y*Math.sin(ue);
+    ue=ue*Math.pi()/180; //von Grad zu RAD umrechnen
+
+    x1=x*Math.cos(ue)-y*Math.sin(ue); //Transformierung von Punkt in der Rotation
     return x1;
     }
 }
 
 function ueberhoehung_y (ue, x, y) {
-    r=Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+
+    ue=ue*Math.pi()/180; //von Grad zu RAD umrechnen
+r=Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
     console.log("r="+r)
     y1=r*Math.sin(ue);
   
