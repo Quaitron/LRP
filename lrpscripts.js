@@ -12,7 +12,7 @@
 		
 		// Korrektur für den 0 Punkt
 		const corrWidth = 0;
-		const corrHeight = -10 + canvasHeight;
+		const corrHeight = -100 + canvasHeight;
 		
 		// Faktor zur Massstabumrechung
 		const faktor = 8;
@@ -124,25 +124,31 @@ function changeKoordinate_dy() {
     return NaN;
   } else {
     // Wenn dy grösser oder gleich dx ist, die Koordinate für y berechnen
-    let y = parseInt(Math.sqrt((dy * dy) - (dx * dx)));
+    let y = parseInt(Math.sqrt(Math.pow(dy,2)) - (Math.pow(dx,2)));
     
     // Koordinate für y zurückgeben
     return y;
   }
 }
-/* 
+
 //Funktion zum Einrechnen der Überhöhung
 function ueberhoehung_x (ue, x, y) {
-  x1 = x*(Math.cos(ue))-y*(Math.sin(ue));
-  
-  return x1;
+    if (ue==0) {
+        return x;
+    }
+    else {
+    x1=x*Math.cos(ue)-y*Math.sin(ue);
+    return x1;
+    }
 }
 
 function ueberhoehung_y (ue, x, y) {
-  y1 = x*(Math.sin(ue))-y*(Math.cos(ue));
+    r=Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+    console.log("r="+r)
+    y1=r*Math.sin(ue);
   
-  return y1;
-} */
+    return y1;
+} 
 	
 
 // Funktion zur Abrufung des aktuellen Datums und der aktuellen Uhrzeit
@@ -402,7 +408,7 @@ function abfrageMesspunkte() {
 	
 
 // Funktion zum Neuzeichnen des Lichtraumprofils
-function zeichneKoordianten(koorArray, farbe) {
+function zeichneKoordianten(koorArray, farbe, ue) {
   // Canvas-Leinwand löschen, um das Lichtraumprofil zu aktualisieren
   clearCanvas();
   
@@ -416,8 +422,8 @@ function zeichneKoordianten(koorArray, farbe) {
     let y1 = koorArray[i].y;
     let x2 = koorArray[j].x;
     let y2 = koorArray[j].y;
-    
-    // Umrechnen des Darstellungsfaktors für die Koordinaten
+
+     // Umrechnen des Darstellungsfaktors für die Koordinaten
     x1 = x1 / faktor;
     y1 = y1 / faktor;
     x2 = x2 / faktor;
@@ -430,7 +436,7 @@ function zeichneKoordianten(koorArray, farbe) {
 	
 
 // Funktion zum Zeichnen des Koordinatennetzes
-function zeichneNetz(x, y, farbe, px) {
+function zeichneNetz(x, y, farbe, px, ue) {
   // Schleife für horizontale Linien
   for (let i = 0; i < y; i = i + 500) {
     // Koordinaten für die Linie festlegen
@@ -438,7 +444,15 @@ function zeichneNetz(x, y, farbe, px) {
     let y1 = i;
     let x2 = x;
     let y2 = i;
-    
+
+     console.log("x1 "+x1+" x2 "+x2+" y1 "+y1+" y2 "+y2);
+    // x1 = ueberhoehung_x(ue, x1, y1);
+    // y1 = ueberhoehung_y(ue, x1, y1);
+    // x2 = ueberhoehung_x(ue, x2, y2);
+    // y2 = ueberhoehung_y(ue, x2, y2);
+     console.log("x1 "+x1+" x2 "+x2+" y1 "+y1+" y2 "+y2); 
+
+
     // Umrechnen des Darstellungsfaktors
     x1 = x1 / faktor;
     y1 = y1 / faktor;
@@ -457,6 +471,13 @@ function zeichneNetz(x, y, farbe, px) {
     let x2 = i;
     let y2 = y;
     
+     console.log("x1 "+x1+" x2 "+x2+" y1 "+y1+" y2 "+y2);
+    //x1 = ueberhoehung_x(ue, x1, y1);
+    //y1 = ueberhoehung_y(ue, x1, y1);
+    //x2 = ueberhoehung_x(ue, x2, y2);
+    //y2 = ueberhoehung_y(ue, x2, y2);
+     console.log("x1 "+x1+" x2 "+x2+" y1 "+y1+" y2 "+y2);
+
     // Umrechnen des Darstellungsfaktors
     x1 = x1 / faktor;
     y1 = y1 / faktor;
@@ -472,6 +493,7 @@ function zeichneNetz(x, y, farbe, px) {
 function auslesenEBV() {
   // Den ausgewählten Wert aus dem Dropdown-Element mit der ID "ebvDropdown" auslesen
   selectEBV = parseInt(document.getElementById("ebvDropdown").value);
+  ue = parseInt(document.getElementById("ueber").value);
 
   // Das entsprechende EBV-Array basierend auf dem ausgewählten Wert auslesen
   koorArray = auslesenEBVarray(selectEBV);
@@ -480,10 +502,10 @@ function auslesenEBV() {
   farbe = auslesenEBVfarbe(selectEBV);
 
   // Die Koordinaten mit der entsprechenden Farbe zeichnen
-  zeichneKoordianten(koorArray, farbe);
+  zeichneKoordianten(koorArray, farbe, ue);
 
   // Ein Netz mit den angegebenen Werten zeichnen
-  zeichneNetz(3500, 6000, "grey", 1);
+  zeichneNetz(3500, 6000, "grey", 1 ,ue);
 }
 
 // Funktion EBV Array auswählen
