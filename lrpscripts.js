@@ -137,7 +137,7 @@ function ueberhoehung_x (ue, x, y) {
         return x;
     }
     else {
-    ue=ue*Math.pi()/180; //von Grad zu RAD umrechnen
+    ue=ue*Math.PI/180; //von Grad zu RAD umrechnen
 
     x1=x*Math.cos(ue)-y*Math.sin(ue); //Transformierung von Punkt in der Rotation
     return x1;
@@ -146,10 +146,15 @@ function ueberhoehung_x (ue, x, y) {
 
 function ueberhoehung_y (ue, x, y) {
 
-    ue=ue*Math.pi()/180; //von Grad zu RAD umrechnen
-r=Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
-    console.log("r="+r)
-    y1=r*Math.sin(ue);
+  if (ue==0) {
+    return y;
+  }
+  else {
+    ue=ue*Math.PI/180; //von Grad zu RAD umrechnen
+
+    y1=y*Math.sin(ue)-x*Math.cos(ue); //Transformierung von Punkt in der Rotation
+return y1;
+}
   
     return y1;
 } 
@@ -450,10 +455,10 @@ function zeichneNetz(x, y, farbe, px, ue) {
     let y2 = i;
 
      console.log("x1 "+x1+" x2 "+x2+" y1 "+y1+" y2 "+y2);
-    // x1 = ueberhoehung_x(ue, x1, y1);
-    // y1 = ueberhoehung_y(ue, x1, y1);
-    // x2 = ueberhoehung_x(ue, x2, y2);
-    // y2 = ueberhoehung_y(ue, x2, y2);
+    x1 = ueberhoehung_x(ue, x1, y1);
+    y1 = ueberhoehung_y(ue, x1, y1);
+    x2 = ueberhoehung_x(ue, x2, y2);
+    y2 = ueberhoehung_y(ue, x2, y2);
      console.log("x1 "+x1+" x2 "+x2+" y1 "+y1+" y2 "+y2); 
 
 
@@ -476,10 +481,10 @@ function zeichneNetz(x, y, farbe, px, ue) {
     let y2 = y;
     
      console.log("x1 "+x1+" x2 "+x2+" y1 "+y1+" y2 "+y2);
-    //x1 = ueberhoehung_x(ue, x1, y1);
-    //y1 = ueberhoehung_y(ue, x1, y1);
-    //x2 = ueberhoehung_x(ue, x2, y2);
-    //y2 = ueberhoehung_y(ue, x2, y2);
+    x1 = ueberhoehung_x(ue, x1, y1);
+    y1 = ueberhoehung_y(ue, x1, y1);
+    x2 = ueberhoehung_x(ue, x2, y2);
+    y2 = ueberhoehung_y(ue, x2, y2);
      console.log("x1 "+x1+" x2 "+x2+" y1 "+y1+" y2 "+y2);
 
     // Umrechnen des Darstellungsfaktors
